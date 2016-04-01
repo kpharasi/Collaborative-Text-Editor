@@ -1,0 +1,22 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+section {
+	height:100%;
+}
+
+#pad {
+
+	height: 500px;
+	width: 500px;
+
+	overflow: auto;
+	outline: none;
+	resize: none;
+}
