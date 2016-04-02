@@ -11,7 +11,6 @@ var users = require('./routes/users');
 var app = express();
 
 
-//require('redis')
 
 
 
@@ -36,14 +35,14 @@ var sharejs = require('share')
 
 // setting up redis server
 var redisClient;
-//console.log(process.env.REDISTOGO_URL);
-//if (process.env.REDISTOGO_URL) {
-  var rtg   = require("url").parse(process.env.REDISTOGO_URL);
+console.log(process.env.REDISTOGO_URL);
+if (process.env.REDISTOGO_URL) {
+  var rtg = require("url").parse(process.env.REDISTOGO_URL);
   redisClient = require("redis").createClient(rtg.port, rtg.hostname);
   redisClient.auth(rtg.auth.split(":")[1]);
-//} else {
-//  redisClient = require("redis").createClient();
-//}
+} else {
+  redisClient = require("redis").createClient();
+}
 
 // add database for sharejs
 var options = {
@@ -53,6 +52,9 @@ var options = {
 // attaching express server to sharejs
 sharejs.server.attach(app, options)
 
+// listen on port 8000 (for localhost) or the port defined for heroku
+var port = process.env.PORT || 8000;
+app.listen(port);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
