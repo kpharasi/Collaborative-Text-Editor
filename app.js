@@ -14,10 +14,7 @@ var app = express();
 var sharejs = require('share')
 require('redis')
 
-// add database for sharejs
-var opt = {
-  db: {type: 'redis'}
-};
+
 
 
 // view engine setup
@@ -46,6 +43,11 @@ if (process.env.REDISTOGO_URL) {
 } else {
   redisClient = require("redis").createClient();
 }
+
+// add database for sharejs
+var opt = {
+  db: {type: 'redis', client: redisClient}
+};
 
 // attaching express server to sharejs
 sharejs.server.attach(app, opt)
