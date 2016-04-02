@@ -35,6 +35,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
+
+// setting up redis server
+var redisClient;
+console.log(process.env.REDISTOGO_URL);
+if (process.env.REDISTOGO_URL) {
+  var rg   = require("url").parse(process.env.REDISTOGO_URL);
+  redisClient = require("redis").createClient(rg.port, rg.hostname);
+  redisClient.auth(rg.auth.split(":")[1]);
+} else {
+  redisClient = require("redis").createClient();
+}
+
 // attaching express server to sharejs
 sharejs.server.attach(app, opt)
 
