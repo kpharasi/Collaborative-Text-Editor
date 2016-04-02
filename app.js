@@ -12,7 +12,7 @@ var app = express();
 
 // adding for sharejs
 var sharejs = require('share')
-require('redis')
+//require('redis')
 
 
 
