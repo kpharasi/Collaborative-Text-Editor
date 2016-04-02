@@ -10,8 +10,7 @@ var users = require('./routes/users');
 
 var app = express();
 
-// adding for sharejs
-var sharejs = require('share')
+
 //require('redis')
 
 
@@ -32,25 +31,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
+// adding for sharejs
+var sharejs = require('share')
 
 // setting up redis server
 var redisClient;
-console.log(process.env.REDISTOGO_URL);
-if (process.env.REDISTOGO_URL) {
-  var rg   = require("url").parse(process.env.REDISTOGO_URL);
-  redisClient = require("redis").createClient(rg.port, rg.hostname);
-  redisClient.auth(rg.auth.split(":")[1]);
-} else {
-  redisClient = require("redis").createClient();
-}
+//console.log(process.env.REDISTOGO_URL);
+//if (process.env.REDISTOGO_URL) {
+  var rtg   = require("url").parse(process.env.REDISTOGO_URL);
+  redisClient = require("redis").createClient(rtg.port, rtg.hostname);
+  redisClient.auth(rtg.auth.split(":")[1]);
+//} else {
+//  redisClient = require("redis").createClient();
+//}
 
 // add database for sharejs
-var opt = {
+var options = {
   db: {type: 'redis', client: redisClient}
 };
 
 // attaching express server to sharejs
-sharejs.server.attach(app, opt)
+sharejs.server.attach(app, options)
 
 
 // catch 404 and forward to error handler
